@@ -22,6 +22,7 @@ const getNameAge = async (
 
     if (!response.ok) {
       res.status(response.status).json({ messsage: response.statusText });
+      return;
     }
 
     const data = await response.json();

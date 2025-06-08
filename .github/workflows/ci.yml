@@ -1,0 +1,44 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        run: npm install -g pnpm@10.6.5
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build and test
+        run: pnpm test
+        env:
+          NODE_ENV: test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: testsecret
