@@ -10,6 +10,7 @@ const config: AppConfig = {
     windowMs: process.env.LIMITER_WINDOW_MS as unknown as number,
     maxRequests: process.env.LIMITER_MAX_REQUESTS as unknown as number,
   },
+  redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
 };
 
 export default config;
