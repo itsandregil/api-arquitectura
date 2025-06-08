@@ -1,4 +1,4 @@
-# 🚀 Mi API con Node.js, TypeScript, Redis y Docker
+# API Arquitectura de Software
 
 API REST construida con **Express**, **TypeScript** y **Redis** como sistema de caché. Además, incluye protección contra abuso mediante **rate limiting**. Todo el entorno está contenerizado usando **Docker** y **Docker Compose**.
 
