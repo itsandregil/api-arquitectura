@@ -8,10 +8,16 @@ export interface AppConfig {
   agifyApiKey: string;
   cacheExpirationTime: number;
   limiter: LimiterConfig;
-  redisUrl: string;
+  redisUrl?: string;
 }
 
 interface LimiterConfig {
   windowMs: number;
   maxRequests: number;
+}
+
+export interface AgifyResponse {
+  count: number;
+  name: string;
+  age: number;
 }

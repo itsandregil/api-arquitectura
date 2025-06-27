@@ -1,21 +1,21 @@
 import express from "express";
-import rateLimit from "express-rate-limit";
-import config from "./core/config";
+import swaggerUi from "swagger-ui-express";
+import limiter from "./core/rateLimiter";
+import { apiSpec } from "./core/swagger";
 import { errorHandler } from "./middlewares/error.handler";
 import apiRouter from "./routes";
 
 const app = express();
 
-// Add a rate limiter to balance requests load
-const limiter = rateLimit({
-  windowMs: config.limiter.windowMs,
-  limit: config.limiter.maxRequests,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
+// Add rate limiter and other middlewares
+app.use(express.json());
 app.use(limiter);
+
+// Add routes
 app.use("/api", apiRouter);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(apiSpec));
+
+// Add error handlers
 app.use(errorHandler);
 
 export default app;
