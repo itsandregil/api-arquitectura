@@ -65,7 +65,6 @@ La API incluye:
 Las pruebas unitarias están configuradas con Jest.
 
 ```bash
-pnpm install
 pnpm test
 ```
 
