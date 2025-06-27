@@ -10,8 +10,7 @@ async function main() {
     const { port, hostUrl } = config;
 
     app.listen(port, () => {
-      console.log(`API listening in http://${hostUrl}:${port}/api`);
-      console.log(`API Docs in http://${hostUrl}:${port}/docs`);
+      console.log(`Server listening in http://${hostUrl}:${port}/`);
     });
   } catch (error) {
     console.error("Error starting the server...");

@@ -17,7 +17,6 @@ const router = Router();
  *        description: The name you want to know its age
  *        schema:
  *          type: string
- *          format: int64
  *    responses:
  *      200:
  *        description: Data with the name and the age

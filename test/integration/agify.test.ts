@@ -6,7 +6,7 @@ import { client } from "../../src/core/redis";
 jest.mock("../../src/core/redis");
 global.fetch = jest.fn();
 
-describe("GET /api/", () => {
+describe("GET /api/names/", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -28,14 +28,14 @@ describe("GET /api/", () => {
 
     (client.setEx as jest.Mock).mockResolvedValue("OK");
 
-    const res = await request(app).get("/api?name=Lusy%20Oregon");
+    const res = await request(app).get("/api/names/Lusy%20Oregon");
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ data: mockAgifyResponse });
+    expect(res.body).toEqual({ ...mockAgifyResponse });
 
-    expect(client.get).toHaveBeenCalledWith("Lusy Oregon");
+    expect(client.get).toHaveBeenCalledWith("names:Lusy Oregon");
     expect(client.setEx).toHaveBeenCalledWith(
-      "Lusy Oregon",
+      "names:Lusy Oregon",
       config.cacheExpirationTime,
       JSON.stringify(mockAgifyResponse)
     );
@@ -57,13 +57,13 @@ describe("GET /api/", () => {
     const fetchMock = global.fetch as jest.Mock;
     fetchMock.mockClear();
 
-    const res = await request(app).get("/api?name=Lusy%20Oregon");
+    const res = await request(app).get("/api/names/Lusy%20Oregon");
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ data: cachedData });
+    expect(res.body).toEqual({ ...cachedData });
 
     expect(fetchMock).not.toHaveBeenCalled();
 
-    expect(client.get).toHaveBeenCalledWith("Lusy Oregon");
+    expect(client.get).toHaveBeenCalledWith("names:Lusy Oregon");
   });
 });

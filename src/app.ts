@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import swaggerUi from "swagger-ui-express";
 import limiter from "./core/rateLimiter";
 import { apiSpec } from "./core/swagger";
@@ -14,6 +14,11 @@ app.use(limiter);
 // Add routes
 app.use("/api", apiRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(apiSpec));
+
+// Redirect from index to documentation
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
+  res.redirect(301, "/docs");
+});
 
 // Add error handlers
 app.use(errorHandler);
